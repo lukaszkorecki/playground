@@ -1,14 +1,7 @@
 (require "irregex")
-
-
-(define (get-arguments argument-list)
+(define (get-pattern-and-file argument-list)
   ; remove 'csi'
-  (define arg-list (cdr argument-list))
-  ; check the position of the file name
-  (define arg-list (cond
-      [ (first arg-list) (cdr arg-list)]
-      [ else (cdr (cdr arg-list))] ))
-  (for-each (lambda (x) (print x) arg-list)))
+  (list  (car(cdr (reverse argument-list))) (car(reverse argument-list))))
 
 ; (get-arguments argv)
 (print [argv])

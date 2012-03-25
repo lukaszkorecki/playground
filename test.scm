@@ -3,6 +3,7 @@
 (load "grep.scm")
 
 (check
-  (get-arguments (list "csi" "-script" "test.scm" "regex" "path")) (=> eq?) (cons "regex" "path"))
+  (get-pattern-and-file (list "csi" "-script" "test.scm" "regex" "path")) => (list "regex" "path"))
 
 (check-report)
+(exit)
