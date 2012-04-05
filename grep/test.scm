@@ -6,7 +6,7 @@
   (get-pattern-and-file '("csi" "-script" "test.scm" "regex" "path")) => '("regex" "path"))
 
 (check
-  (match-lines '("ab" "bc" "cd") "b") => '("ab" "bc"))
+  (match-lines '("ab" "bc" "cd") "\\wb") => '(("ab")))
 
 (check-report)
 (exit)

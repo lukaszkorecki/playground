@@ -1,4 +1,4 @@
-; (use irregex)
+(use srfi-1)
 (use regex)
 
 (define (get-pattern-and-file argument-list)
@@ -8,7 +8,9 @@
   (read-lines file-name))
 
 (define (match-lines contents r-pattern)
-  (filter (lambda (line) (string-search (regexp r-pattern))) contents))
+  (filter-map (lambda (line) (string-search (regexp r-pattern) line)) contents))
+
+(match-lines '("lol" "wat") "wat")
 
 ; (get-arguments argv)
 (print [argv])

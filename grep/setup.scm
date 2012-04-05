@@ -2,9 +2,9 @@
 ; Simple setup script
 ; You can run it with:
 ;   csi setup.scm
-;   or make it executable
-;  once packages are installed it will run the tests
+; Once packages are installed it will run the tests
 (define packages (list
+                "regex"     ; regex egg
                 "srfi-78"   ; unit testing library
                 "srfi-42")) ; additional package
 
