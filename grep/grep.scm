@@ -2,15 +2,20 @@
 (use regex)
 
 (define (get-pattern-and-file argument-list)
-  (list  (car(cdr (reverse argument-list))) (car(reverse argument-list))))
+  (list   (car(reverse argument-list)) (car(cdr (reverse argument-list)))))
 
 (define (file-to-list file-name)
-  (read-lines file-name))
+  (string-split (read-file file-name) "\n"))
 
 (define (match-lines contents r-pattern)
-  (filter-map (lambda (line) (string-search (regexp r-pattern) line)) contents))
+  (filter-map (lambda (line) (string-search r-pattern line)) contents))
 
-(match-lines '("lol" "wat") "wat")
+(for-each (lambda (l) (print l)) [argv])
 
-; (get-arguments argv)
-(print [argv])
+;
+;(define args (get-pattern-and-file [argv]))
+;(define file-name (car args))
+;(define pattern (car (reverse args)))
+;
+;(for-each (lambda (match) (print "> " match "\n"))
+;(match-lines (file-to-list file-name) pattern))

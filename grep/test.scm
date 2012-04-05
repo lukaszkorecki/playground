@@ -3,7 +3,7 @@
 (load "grep.scm")
 
 (check
-  (get-pattern-and-file '("csi" "-script" "test.scm" "regex" "path")) => '("regex" "path"))
+  (get-pattern-and-file '("csi" "-script" "test.scm" "regex" "path")) => '("path" "regex"))
 
 (check
   (match-lines '("ab" "bc" "cd") "\\wb") => '(("ab")))
