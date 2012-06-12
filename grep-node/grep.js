@@ -15,12 +15,12 @@ function processOptions(argv) {
 
 function grepFiles(files, regex, acceptor) {
   function readAndMatch(file) {
-    fs.readFile(file, search);
+    fs.readFile(file, function(err, data){ search(file,err,data); });
   }
 
-  function search(err,data){
-    if( err) return;
-    data.toString().split("\n").forEach(function(line, index){
+  function search(file,err,data){
+    if( err) return acceptor.emit('err', file);
+    return data.toString().split("\n").forEach(function(line, index){
       if(line.match(regex)) acceptor.emit('found', file, index+1, line);
     });
   }
@@ -33,6 +33,10 @@ var options = processOptions(process.argv),
 
 watcher.on('found',function(file, line_no, line_str){
   console.log(file,line_no, line_str);
+});
+
+watcher.on('err', function(file){
+   console.log('Could not grep ' + file);
 });
 
 grepFiles(options.files, options.regex, watcher);
