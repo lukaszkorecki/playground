@@ -4,11 +4,9 @@ var u = require('util'),
 
 function processOptions(argv) {
   var opts = {};
-  argv.forEach(function(value, index, arr){
-    if(index == 2) opts.regex = new RegExp(value);
-    opts.files = arr.slice(3);
-  });
 
+  opts.regex = new RegExp(argv[2]);
+  opts.files = argv.slice(3);
   return opts;
 
 }
