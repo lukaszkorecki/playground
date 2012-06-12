@@ -1,7 +1,7 @@
 var u = require('util'),
-    fs = require('fs');
+    fs = require('fs'),
+    ev = require('events');
 var processOptions = function(argv) {
-
   var opts = {};
   argv.forEach(function(value, index, arr){
     if(index == 2) opts.regex = new RegExp(value);
@@ -11,18 +11,18 @@ var processOptions = function(argv) {
   return opts;
 
 };
+
 var grepFiles = function(files, regex, acceptor) {
 
   var readAndMatch = function(file) {
     fs.readFile(file, function(err,data){
-      if(! err) {
-        data.toString().split("\n").forEach(function(line, index){
-          if(f = line.match(regex)) {
-            console.log(file, index+1, f.input);
-          }
+      if( err) return ;
+      data.toString().split("\n").forEach(function(line, index){
+        if(f = line.match(regex)) {
+          acceptor.emit('found', file, index+1, f.input);
+        }
 
-        });
-      }
+      });
 
     });
 
@@ -34,5 +34,11 @@ options = processOptions(process.argv);
 
 console.log(u.inspect(options, false, 4, true));
 
+var watcher = new ev.EventEmitter();
 
-var results = grepFiles(options.files, options.regex);
+watcher.on('found',function(file, line_no, line_str){
+
+  console.log(file,line_no, line_str);
+
+});
+grepFiles(options.files, options.regex, watcher);
