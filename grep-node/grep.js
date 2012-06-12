@@ -6,7 +6,7 @@ function processOptions(argv) {
   var opts = {};
   argv.forEach(function(value, index, arr){
     if(index == 2) opts.regex = new RegExp(value);
-    opts.files = arr.filter(function(el,index){ if(index >= 3) return el; });
+    opts.files = arr.slice(3);
   });
 
   return opts;
@@ -19,10 +19,13 @@ function grepFiles(files, regex, acceptor) {
   }
 
   function search(file,err,data){
-    if( err) return acceptor.emit('err', file);
-    return data.toString().split("\n").forEach(function(line, index){
-      if(line.match(regex)) acceptor.emit('found', file, index+1, line);
-    });
+    if( err) {
+      acceptor.emit('err', file);
+    } else {
+      data.toString().split("\n").forEach(function(line, index){
+        if(line.match(regex)) acceptor.emit('found', file, index+1, line);
+      });
+    }
   }
 
   files.forEach(readAndMatch);
