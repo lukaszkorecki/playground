@@ -1,4 +1,5 @@
-var u = require('util');
+var u = require('util'),
+    fs = require('fs');
 var processOptions = function(argv) {
 
   var opts = {};
@@ -10,8 +11,23 @@ var processOptions = function(argv) {
   return opts;
 
 };
-var grepFiles = function(files, regex) {
-  // do sth with file
+var grepFiles = function(files, regex, acceptor) {
+
+  var readAndMatch = function(file) {
+    fs.readFile(file, function(err,data){
+      if(! err) {
+        data.toString().split("\n").forEach(function(line, index){
+          if(f = line.match(regex)) {
+            console.log(file, index+1, f.input);
+          }
+
+        });
+      }
+
+    });
+
+  };
+  files.forEach(readAndMatch);
 };
 
 options = processOptions(process.argv);
